@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1537432049576.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3040757945",
+    "id" : "5699ED03",
+    "lastKnownWriteTime" : 1536048708,
+    "last_content_update" : 1536048708,
+    "path" : "~/Praktikum/Dominik/filecovrunit/R/create_testsuite.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "18,78",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

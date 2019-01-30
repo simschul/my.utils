@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1537432082066.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "695483723",
+    "id" : "1CF4F895",
+    "lastKnownWriteTime" : 1536050716,
+    "last_content_update" : 1536050716,
+    "path" : "~/Praktikum/Dominik/filecovrunit/R/file_coverage_runit.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "13,78",
+        "scrollLine" : "4"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

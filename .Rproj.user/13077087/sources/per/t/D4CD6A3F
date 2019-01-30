@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1545127849332.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3717658752",
+    "id" : "D4CD6A3F",
+    "lastKnownWriteTime" : 1545128076,
+    "last_content_update" : 1545128077312,
+    "path" : "W:/Eigene Dateien/Praktikum/my.utils/R/spatial_tools.R",
+    "project_path" : "R/spatial_tools.R",
+    "properties" : {
+        "cursorPosition" : "8,23",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

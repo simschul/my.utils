@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1537431723842.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "382175720",
+    "id" : "BF227108",
+    "lastKnownWriteTime" : 1537434385,
+    "last_content_update" : -2147483648,
+    "path" : "~/Praktikum/my.utils/R/start_R_script.R",
+    "project_path" : "R/start_R_script.R",
+    "properties" : {
+        "cursorPosition" : "31,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
