@@ -14,3 +14,24 @@ create_named_list <- function(names) {
     setNames(names)
   
 }
+
+
+
+#' If you want to search for two (or more) words within a string in any
+#' possible order
+#'
+#' @param words a character vector containing the words you want to look for
+#'
+#' @return an reg exp string
+#' @export
+#'
+#' @examples
+combine_words_regexp <- function(words) {
+  regexp <- ""
+  for(i in 1:length(words)) {
+    regexp <- paste0(regexp, "(?=.*", words[i], ")")
+  }
+  return(regexp)
+}
+
+
