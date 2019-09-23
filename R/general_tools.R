@@ -36,3 +36,17 @@ combine_words_regexp <- function(words) {
 
 
 
+#' Title
+#'
+#' @param x 
+#' @param tol 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+zero_range <- function(x, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE) {
+  if (length(x) == 1) return(TRUE)
+  abs(max(x) - min(x)) < tol
+}
+
