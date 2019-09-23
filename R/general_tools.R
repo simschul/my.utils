@@ -47,6 +47,7 @@ combine_words_regexp <- function(words) {
 #' @examples
 zero_range <- function(x, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE) {
   if (length(x) == 1) return(TRUE)
+  if (sum(is.na(x)) == length(x)) return(NA)
   abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tol
 }
 
