@@ -62,15 +62,32 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
           color = (viridis), zcol = "value", ...)
 }
 
+#' Title
+#'
+#' @param mat 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 as.sparse.matrix <- function(mat) {
-  mat <- mat %>% as.data.table %>% 
-    .[, row := 1:.N] %>% 
-    melt(id.vars = "row", na.rm = TRUE, 
+  mat <- data.table::as.data.table(mat)
+  mat <- mat[, row := 1:.N] %>% 
+    data.table::melt(id.vars = "row", na.rm = TRUE, 
          variable.name = "col") %>% 
     .[, col := substring(col, 2) %>% as.integer] %>% 
     .[]
   return(mat)
 }
+
+#' Title
+#'
+#' @param xy 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 point2polygon <- function (xy) {
   x <- c(xy[1]-1, xy[1])
   y <- c(xy[2]-1, xy[2])
