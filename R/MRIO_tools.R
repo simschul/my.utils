@@ -72,13 +72,15 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
 #' @examples
 as.sparse.matrix <- function(mat) {
   mat <- data.table::as.data.table(mat)
-  mat <- mat[, row := 1:.N] %>% 
-    data.table::melt(id.vars = "row", na.rm = TRUE, 
-         variable.name = "col") %>% 
-    .[, col := substring(col, 2) %>% as.integer] %>% 
+  colnames(mat) <- paste0(1:ncol(mat))
+  mat <- mat[, row := 1:.N] 
+  mat <- data.table::melt(mat, id.vars = "row", na.rm = TRUE, 
+                          variable.name = "col") %>% 
+    .[, col := col %>% as.integer] %>% 
     .[]
   return(mat)
 }
+
 
 #' Title
 #'

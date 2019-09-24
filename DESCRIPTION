@@ -12,4 +12,5 @@ Imports:
     data.table, 
     raster, 
     tidyverse, 
-    whisker
+    whisker, 
+    sf
