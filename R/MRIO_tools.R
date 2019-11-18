@@ -31,9 +31,7 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
                    "threshold taken to ", min_threshold))
     threshold <- min_threshold
   }
-  
   mat[mat < threshold & mat > -threshold] <- NA
-  
   res <- mat %>% as.sparse.matrix 
   if (!missing(attributes)) {
     if (sum(c("row", "col") %in% colnames(attributes)) != 2) {
@@ -46,7 +44,7 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
   }  
   res <- res %>% 
     .[, row := -row] %>% 
-    st_as_sf(coords = c("col", "row"), 
+    sf::st_as_sf(coords = c("col", "row"), 
              remove = FALSE) 
   res$row <- -res$row
   if (cex == "absolut") {
@@ -58,8 +56,8 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
     res[["dec_value"]] <- -(res$value)
     cex <- "dec_value"
   }
-  mapview(res, alpha = 0.3, lwd = 0, cex = cex, 
-          color = (viridis), zcol = "value", ...)
+  mapview::mapview(res, alpha = 0.3, lwd = 0, cex = cex, 
+          color = (viridis::viridis), zcol = "value", ...)
 }
 
 #' Title
@@ -73,10 +71,12 @@ IOvisualize <- function(mat, threshold, maxpoints = 1E4,
 as.sparse.matrix <- function(mat) {
   mat <- data.table::as.data.table(mat)
   colnames(mat) <- paste0(1:ncol(mat))
-  mat <- mat[, row := 1:.N] 
+  #cat(is.data.table(mat))
+  mat <- mat[, "row" := 1:.N]
+  # mat <- cbind(mat, row = 1:nrow(mat))
   mat <- data.table::melt(mat, id.vars = "row", na.rm = TRUE, 
                           variable.name = "col") %>% 
-    .[, col := col %>% as.integer] %>% 
+    .[, col := as.integer(col)] %>% 
     .[]
   return(mat)
 }
