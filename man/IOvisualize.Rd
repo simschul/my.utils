@@ -8,16 +8,6 @@ IOvisualize(mat, threshold, maxpoints = 10000, cex = "absolut",
   attributes, ...)
 }
 \arguments{
-\item{mat}{}
-
-\item{threshold}{}
-
-\item{maxpoints}{}
-
-\item{cex}{}
-
-\item{attributes}{}
-
 \item{...}{}
 }
 \description{
