@@ -1,11 +1,11 @@
 
 #' Title
 #'
-#' @param mat
+#' @param mat a numeric matrix
 #' @param threshold
 #' @param maxpoints
-#' @param cex
-#' @param attributes
+#' @param cex either "absolut" (default), "increasing" or "decreasing". Gives the size of the bubbles. 
+#' @param attributes a list with two elements "row" and "col". Each element should be a data.frame with the same number of rows as ncol(mat) or nrow(mat), respectively. If not given and the matrix has colnames and rownames these are taken. 
 #' @param ...
 #'
 #' @return
@@ -14,7 +14,9 @@
 #' @examples
 #'
 IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
-                         attributes, ...)  {
+                         attributes = list("row" = data.table(rownames = rownames(mat)), 
+                                           "col" = data.table(colnames = colnames(mat))) 
+                         , ...)  {
   if (maxpoints > (ncol(mat) * nrow(mat))) {
     min_threshold <- 0
   } else {
@@ -34,28 +36,21 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
   res <- mat %>% as.sparse.matrix
   
   # Adding adidtional attributes (optional)
-  if (!missing(attributes) | (!is.null(colnames(mat) &
-                                       !is.null(rownames(mat))))) {
-    # either: attributes are given, or matrix has both row- and colnames
-    if (missing(attributes)) {
-      # matrix has row- and colnames -> take them as attributes
-      attributes <- list()
-      attributes[["row"]] <- data.table(rownames = rownames(mat))
-      attributes[["col"]] <- data.table(colnames = colnames(mat))
-    } else {
-      if (!(c("row", "col") %in% names(attributes))) {
-        warning("attributes needs to have both arguments col and row!")
-      }
-    }
-    attributes <- lapply(attributes, function(x) {
-      x[,"id" := 1:.N]
-    })
-    res <- merge(res, attributes$row,
-                 by.x = "row", by.y = "id",
-                 suffixes = c(".row",".col")) %>%
-      merge(., attributes$col, by.x = "col",
-            by.y = "id", suffixes = c(".row", ".col"))
+  if (!(exists("row", attributes) & exists("col", attributes))) {
+    warning("attributes needs to have both arguments col and row!")
+  } else if (nrow(attributes$row) == nrow(mat) & 
+             nrow(attributes$col) == ncol(mat)) {
+      # either: attributes are given, or matrix has both row- and colnames
+      attributes <- lapply(attributes, function(x) {
+        x[,"id" := 1:.N]
+      })
+      res <- merge(res, attributes$row,
+                   by.x = "row", by.y = "id",
+                   suffixes = c(".row",".col")) %>%
+        merge(., attributes$col, by.x = "col",
+              by.y = "id", suffixes = c(".row", ".col"))
   }
+
   ##################################################
   res <- res %>% .[, `:=`(row, -row)] %>% sf::st_as_sf(coords = c("col",
                                                                   "row"),
@@ -72,7 +67,7 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
   }
   mapview::mapview(res, alpha = 0.3, lwd = 0, cex = cex,
                    color = viridis::viridis,
-                   zcol = "value", ...)
+                   zcol = "value", layer.name = "value" ,...)
 }
 
 #' Title
