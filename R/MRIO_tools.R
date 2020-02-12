@@ -14,8 +14,7 @@
 #' @examples
 #'
 IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
-                         attributes = list("row" = data.table(rownames = rownames(mat)), 
-                                           "col" = data.table(colnames = colnames(mat))) 
+                         attributes = NULL 
                          , ...)  {
   if (maxpoints > (ncol(mat) * nrow(mat))) {
     min_threshold <- 0
@@ -36,6 +35,10 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
   res <- mat %>% as.sparse.matrix
   
   # Adding adidtional attributes (optional)
+  if (is.null(attributes)) {
+    attributes <- list("row" = data.table(rownames = rownames(mat)), 
+                                                "col" = data.table(colnames = colnames(mat)))
+  } 
   if (!(exists("row", attributes) & exists("col", attributes))) {
     warning("attributes needs to have both arguments col and row!")
   } else if (nrow(attributes$row) == nrow(mat) & 
