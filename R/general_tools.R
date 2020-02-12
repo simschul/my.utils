@@ -37,7 +37,7 @@ combine_words_regexp <- function(words) {
 
 
 #' Title
-#'
+#' see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
 #' @param x 
 #' @param tol 
 #'
