@@ -5,9 +5,15 @@
 \title{Title}
 \usage{
 IOvisualize(mat, threshold, maxpoints = 10000, cex = "absolut",
-  attributes, ...)
+  attributes = NULL, ...)
 }
 \arguments{
+\item{mat}{a numeric matrix}
+
+\item{cex}{either "absolut" (default), "increasing" or "decreasing". Gives the size of the bubbles.}
+
+\item{attributes}{a list with two elements "row" and "col". Each element should be a data.frame with the same number of rows as ncol(mat) or nrow(mat), respectively. If not given and the matrix has colnames and rownames these are taken.}
+
 \item{...}{}
 }
 \description{
