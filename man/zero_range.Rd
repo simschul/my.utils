@@ -2,7 +2,8 @@
 % Please edit documentation in R/general_tools.R
 \name{zero_range}
 \alias{zero_range}
-\title{Title}
+\title{Title
+see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range}
 \usage{
 zero_range(x, tol = .Machine$double.eps^0.5, na.rm = TRUE)
 }
@@ -13,4 +14,5 @@ zero_range(x, tol = .Machine$double.eps^0.5, na.rm = TRUE)
 }
 \description{
 Title
+see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
 }
