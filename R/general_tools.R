@@ -51,3 +51,16 @@ zero_range <- function(x, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE) {
   abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tol
 }
 
+
+#' Calculates the coefficient of variance 
+#' 
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+coef_var <- function(x) {
+  sqrt(var(x)) / mean(x)
+}
