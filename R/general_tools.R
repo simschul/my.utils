@@ -107,9 +107,13 @@ rescale <- function(x) {
 #' @export
 #'
 #' @examples
-common_elements <- function(x, y, mode = 1) {
+common_elements <- function(x, y, mode = 1, ignore.case = FALSE) {
   x <- unique(x)
   y <- unique(y)
+  if (isTRUE(ignore.case)) {
+    x <- tolower(x)
+    y <- tolower(y)
+  }
   if (mode == -1) res <- y[y %in% x]
   else res <- x[x %in% y]
   return(res)
@@ -126,9 +130,13 @@ common_elements <- function(x, y, mode = 1) {
 #'
 #' @examples
 #' 
-non_common_elements <- function(x, y, mode = 1) {
+non_common_elements <- function(x, y, mode = 1, ignore.case = FALSE) {
   x <- unique(x)
   y <- unique(y)
+  if (isTRUE(ignore.case)) {
+    x <- tolower(x)
+    y <- tolower(y)
+  }
   if (mode == -1) res <- y[!(y %in% x)]
   else res <- x[!(x %in% y)]
   return(res)
