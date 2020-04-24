@@ -142,3 +142,17 @@ non_common_elements <- function(x, y, mode = 1, ignore.case = FALSE) {
   return(res)
 }
 
+
+#' Title
+#'
+#' @param x 
+#' @param n 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+substr_right <- function(x, n){
+  nch <- nchar(x)
+  substr(x, nch-n+1, nch)
+}

@@ -4,7 +4,7 @@
 \alias{common_elements}
 \title{Title}
 \usage{
-common_elements(x, y, mode = 1)
+common_elements(x, y, mode = 1, ignore.case = FALSE)
 }
 \arguments{
 \item{x}{vector}
