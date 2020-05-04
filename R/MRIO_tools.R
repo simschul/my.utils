@@ -15,13 +15,17 @@
 IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
                          attributes = NULL 
                          , ...)  {
-  if (maxpoints > (ncol(mat) * nrow(mat))) {
+  # maybe mat is a sparse matrix?
+  if (!is.matrix(mat)) mat <- as.dense.matrix(mat)
+  # threshold argument not needed if matrix is (i) not big enough or (ii) does not have enough non-NA values
+  if (maxpoints > (ncol(mat) * nrow(mat)) | length(mat[is.na(mat)]) < maxpoints) {
     min_threshold <- 0
   } else {
     suppressWarnings(min_threshold <- mat %>% abs %>%
                        fsort(.,decreasing = TRUE, na.last = TRUE) %>%
                        .[maxpoints])
   }
+  
   if (missing(threshold)) {
     threshold <- min_threshold
   }
@@ -92,6 +96,38 @@ as.sparse.matrix <- function(mat) {
     .[]
   return(mat)
 }
+
+
+#' Title
+#'
+#' @param x a sparse matrix in the form a either a data.frame or data.table. Needs to have 3 columns. Default order: row | col | value. If order differs please specify `row`, `col` and `value` arguments. Row and col columns can be either integers (representing the location in the matrix) or character.
+#' @param row which column of x represent the row-index? default 1
+#' @param col which column of x represent the column-index? default 2
+#' @param value which column of x represent the value? default 3
+#' @param keep.names only considered if the `row` and `col` columns of `x` are of type character. 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+as.dense.matrix <- function(x, row = 1, col = 2, value = 3, 
+                            keep.names = TRUE) {
+  if (mode(x) != "data.frame") x <- as.data.frame(x)
+  
+  mat <- matrix(NA, ncol = length(unique(x[,col])), 
+                nrow = length(unique(x[,row])))
+  mat[cbind(as.factor(x[,row]), as.factor(x[,col]))] <- x[,value] # as.factor needed to also work with non-integers row/col IDs
+  
+  if(isTRUE(keep.names) & (is.character(x[,row]) | is.character(x[,col]))) {
+    rownames(mat) <- levels(as.factor(x[,row]))
+    colnames(mat) <- levels(as.factor(x[,col]))
+  }
+  
+  return(mat)
+}
+
+
 
 
 #' Title
