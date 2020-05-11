@@ -4,7 +4,7 @@
 \alias{rescale}
 \title{Title}
 \usage{
-rescale(x)
+rescale(x, scaling_attributes)
 }
 \arguments{
 \item{x}{}
