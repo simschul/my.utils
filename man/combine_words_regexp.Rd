@@ -11,7 +11,7 @@ combine_words_regexp(words)
 \item{words}{a character vector containing the words you want to look for}
 }
 \value{
-an reg exp string
+a reg exp string
 }
 \description{
 If you want to search for two (or more) words within a string in any

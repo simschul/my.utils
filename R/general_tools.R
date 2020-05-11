@@ -119,6 +119,15 @@ normalize <- function(x) {
   return(x)
 }
 
+#' Title
+#'
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
 renormalize <- function(x) {
   x <- x * attributes(x)[["normalized:sum"]]
   attr(x, "normalized:sum") <- NULL
@@ -169,6 +178,15 @@ transform <- function(x, fun, fun_inverse,
 }
 
 
+#' Title
+#'
+#' @param x 
+#' @param inverse_fun 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 retransform <- function(x, inverse_fun) {
   # 1. rescale data
   if (has_attribute(x, "scaled:center") | has_attribute(x, "scaled:scale")) {
@@ -197,6 +215,15 @@ retransform <- function(x, inverse_fun) {
 }
 
 
+#' Title
+#'
+#' @param x 
+#' @param attribute 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 has_attribute <- function(x, attribute) {
   return(attribute %in% names(attributes(x)))
 }
