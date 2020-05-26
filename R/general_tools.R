@@ -157,15 +157,13 @@ renormalize <- function(x) {
 transform <- function(x, fun, fun_inverse,
                       scale = FALSE, normalize = FALSE, eps = 0.001, ...) {
   if (fun == "logap") {
-    a <- max(0,-min(x) + eps)
+    a <- max(0,-min(x, na.rm = TRUE) + eps, na.rm = TRUE)
     fun <- eval(parse(text = whisker::whisker.render(template = 
                                               ("function(x) logap(x, a = {{a}})"),
-                                            data = list("a" = a))), 
-                envir = globalenv())
+                                            data = list("a" = a))))
     fun_inverse <- eval(parse(text = whisker::whisker.render(template = 
                                                       ("function(x) exp(x) - {{a}}"),
-                                                    data = list("a" = a))), 
-                        envir = globalenv())
+                                                    data = list("a" = a))))
   }
   
 
@@ -240,31 +238,14 @@ retransform <- function(x, inverse_fun) {
 #' @export
 #'
 #' @examples
-logap <- function(x, a = max(0,-min(x) + eps), eps = 0.001) {
+logap <- function(x, a = max(0,-min(x, na.rm = TRUE) + eps, na.rm = TRUE), 
+                  eps = 0.001) {
   xt <- log(x + a)
   attributes(xt) <- list("transformed:function" = logap, 
-                         "logap:a" = a, 
-                         "logap:eps" = eps)
+                         "logap:a" = a)
   return(xt)
 }
 
-# logap(1:10)
-# a <- 0.2
-# function(x) x + eval(quote(a))
-# eval(quote(a))
-# 
-# 
-# eval(parse(text = whisker::whisker.render(template = ("function(x) logap(x, a = {{a}})"),
-#                                           data = list("a" = a))))
-# 
-# 
-# body <- "(x1 + x2) * x3"
-# args <- "x1, x2, x3"
-# 
-# eval(parse(text = paste('function(', args, ') { return(' , body , ')}', sep='')))
-# # Text it:
-# f(3,2,5)
-# ## 10
 
 
 #' Find the "best" a for a log(x+a) transformation when x contains values <= 0
@@ -279,7 +260,7 @@ logap <- function(x, a = max(0,-min(x) + eps), eps = 0.001) {
 #' @examples
 
 find_a <- function(x, eps = 0.001) {
-  return(max(0,-min(x) + eps))
+  return(max(0,-min(x, na.rm = TRUE) + eps), na.rm = TRUE)
 }
 
 
