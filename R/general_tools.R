@@ -230,6 +230,16 @@ retransform <- function(x, inverse_fun) {
 }
 
 
+#' see ?bestNormalize::log_x()
+#'
+#' @param x 
+#' @param a 
+#' @param eps 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 logap <- function(x, a = max(0,-min(x) + eps), eps = 0.001) {
   xt <- log(x + a)
   attributes(xt) <- list("transformed:function" = logap, 
@@ -237,6 +247,7 @@ logap <- function(x, a = max(0,-min(x) + eps), eps = 0.001) {
                          "logap:eps" = eps)
   return(xt)
 }
+
 # logap(1:10)
 # a <- 0.2
 # function(x) x + eval(quote(a))
