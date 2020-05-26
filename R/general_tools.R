@@ -112,8 +112,8 @@ rescale <- function(x, scaling_attributes) {
 #'
 #' @examples
 
-normalize <- function(x) {
-  sumx <- sum(x)
+normalize <- function(x, na.rm = TRUE) {
+  sumx <- sum(x, na.rm)
   x <- x / sumx
   attr(x, "normalized:sum") <- sumx
   return(x)
@@ -144,7 +144,7 @@ renormalize <- function(x) {
 #' When combining (i) and (ii) or (i) and (iii) the data is first transformed then scaled/normalized
 #' Note: Combining (ii) and (iii) does not make any sense.
 #' @param x a numeric vector
-#' @param fun a function to transform x
+#' @param fun a function to transform x. Or character vector: at the moment only 'logap' (log(x+a)) is implemented
 #' @param fun_inverse the inverse of it
 #' @param scale boolean. shall x also be scaled? default = FALSE
 #' @param normalize boolean. shall x also be normalized? default = FALSE 
@@ -155,12 +155,26 @@ renormalize <- function(x) {
 #'
 #' @examples
 transform <- function(x, fun, fun_inverse,
-                      scale = FALSE, normalize = FALSE, ...) {
+                      scale = FALSE, normalize = FALSE, eps = 0.001, ...) {
+  if (fun == "logap") {
+    a <- max(0,-min(x) + eps)
+    fun <- eval(parse(text = whisker.render(template = 
+                                              ("function(x) logap(x, a = {{a}})"),
+                                            data = list("a" = a))), 
+                envir = globalenv())
+    fun_inverse <- eval(parse(text = whisker.render(template = 
+                                                      ("function(x) exp(x) - {{a}}"),
+                                                    data = list("a" = a))), 
+                        envir = globalenv())
+  }
+  
+
   if (!missing(fun)) {
     x <- fun(x)
     attr(x, "transformed:function") <- fun 
-    if (missing(fun_inverse)) attr(x, "transformed:inverse_function") <- NULL
-    else {
+    if (missing(fun_inverse)) {
+      attr(x, "transformed:inverse_function") <- NULL
+    } else {
       if (is_inverse_function(fun, fun_inverse)) {
         attr(x, "transformed:inverse_function") <- fun_inverse
       } else stop("fun and fun_inverse are not inverse to each other!")
@@ -176,6 +190,7 @@ transform <- function(x, fun, fun_inverse,
   if (isTRUE(normalize)) x <- normalize(x)  
   return(x)
 }
+
 
 
 #' Title
@@ -215,6 +230,50 @@ retransform <- function(x, inverse_fun) {
 }
 
 
+logap <- function(x, a = max(0,-min(x) + eps), eps = 0.001) {
+  xt <- log(x + a)
+  attributes(xt) <- list("transformed:function" = logap, 
+                         "logap:a" = a, 
+                         "logap:eps" = eps)
+  return(xt)
+}
+# logap(1:10)
+# a <- 0.2
+# function(x) x + eval(quote(a))
+# eval(quote(a))
+# 
+# 
+# eval(parse(text = whisker::whisker.render(template = ("function(x) logap(x, a = {{a}})"),
+#                                           data = list("a" = a))))
+# 
+# 
+# body <- "(x1 + x2) * x3"
+# args <- "x1, x2, x3"
+# 
+# eval(parse(text = paste('function(', args, ') { return(' , body , ')}', sep='')))
+# # Text it:
+# f(3,2,5)
+# ## 10
+
+
+#' Find the "best" a for a log(x+a) transformation when x contains values <= 0
+#' From bestNormalize::log_x
+#'
+#' @param x 
+#' @param eps 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+find_a <- function(x, eps = 0.001) {
+  return(max(0,-min(x) + eps))
+}
+
+
+
+
 #' Title
 #'
 #' @param x 
@@ -244,6 +303,18 @@ is_inverse_function <- function(fun1, fun2) {
   return(dplyr::near(fun1(fun2(x)),x))
 }
 
+
+#' Title
+#'
+#' @param model 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_predictor <- function(model) {
+  return(all.vars(formula(model$formula))[1])
+}
 
 
 #' Title

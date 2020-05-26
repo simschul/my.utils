@@ -15,6 +15,7 @@
 IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
                          attributes = NULL 
                          , ...)  {
+  # TODO: what to do when mat contains Inf-values? --> error atm: "Error in leaflet::colorNumeric(palette = palette, domain = domain, na.color = na.color,  : Wasn't able to determine range of domain "
   # maybe mat is a sparse matrix?
   if (!is.matrix(mat)) mat <- as.dense.matrix(mat)
   # threshold argument not needed if matrix is (i) not big enough or (ii) does not have enough non-NA values

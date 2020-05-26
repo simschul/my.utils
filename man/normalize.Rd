@@ -4,7 +4,7 @@
 \alias{normalize}
 \title{Normalize vector so that the data has a range from 0 to 1}
 \usage{
-normalize(x)
+normalize(x, na.rm = TRUE)
 }
 \arguments{
 \item{x}{a numeric vector}

@@ -8,12 +8,13 @@ This function can be used to
 (ii) scale `x` using R's `scale` function (=standardization)
 (iii) normalize `x` so that its values have a range from 0 to 1}
 \usage{
-transform(x, fun, fun_inverse, scale = FALSE, normalize = FALSE, ...)
+transform(x, fun, fun_inverse, scale = FALSE, normalize = FALSE,
+  eps = 0.001, ...)
 }
 \arguments{
 \item{x}{a numeric vector}
 
-\item{fun}{a function to transform x}
+\item{fun}{a function to transform x. Or character vector: at the moment only 'logap' (log(x+a)) is implemented}
 
 \item{fun_inverse}{the inverse of it}
 
