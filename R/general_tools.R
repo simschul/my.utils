@@ -156,18 +156,19 @@ renormalize <- function(x) {
 #' @examples
 transform <- function(x, fun, fun_inverse,
                       scale = FALSE, normalize = FALSE, eps = 0.001, ...) {
-  if (fun == "logap") {
-    a <- max(0,-min(x, na.rm = TRUE) + eps, na.rm = TRUE)
-    fun <- eval(parse(text = whisker::whisker.render(template = 
-                                              ("function(x) logap(x, a = {{a}})"),
-                                            data = list("a" = a))))
-    fun_inverse <- eval(parse(text = whisker::whisker.render(template = 
-                                                      ("function(x) exp(x) - {{a}}"),
-                                                    data = list("a" = a))))
-  }
   
 
   if (!missing(fun)) {
+    if (is.character(fun) && fun == "logap") {
+      a <- max(0,-min(x, na.rm = TRUE) + eps, na.rm = TRUE)
+      fun <- eval(parse(text = whisker::whisker.render(template = 
+                                                         ("function(x) logap(x, a = {{a}})"),
+                                                       data = list("a" = a))))
+      fun_inverse <- eval(parse(text = whisker::whisker.render(template = 
+                                                                 ("function(x) exp(x) - {{a}}"),
+                                                               data = list("a" = a))))
+    }
+    
     x <- fun(x)
     attr(x, "transformed:function") <- fun 
     if (missing(fun_inverse)) {
