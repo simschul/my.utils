@@ -158,11 +158,11 @@ transform <- function(x, fun, fun_inverse,
                       scale = FALSE, normalize = FALSE, eps = 0.001, ...) {
   if (fun == "logap") {
     a <- max(0,-min(x) + eps)
-    fun <- eval(parse(text = whisker.render(template = 
+    fun <- eval(parse(text = whisker::whisker.render(template = 
                                               ("function(x) logap(x, a = {{a}})"),
                                             data = list("a" = a))), 
                 envir = globalenv())
-    fun_inverse <- eval(parse(text = whisker.render(template = 
+    fun_inverse <- eval(parse(text = whisker::whisker.render(template = 
                                                       ("function(x) exp(x) - {{a}}"),
                                                     data = list("a" = a))), 
                         envir = globalenv())
