@@ -14,6 +14,7 @@ Imports:
     tidyverse, 
     whisker, 
     sf, 
-    mapview
+    mapview, 
+    Rfast
 Suggests: 
     testthat (>= 2.1.0)

@@ -58,7 +58,7 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
               by.y = "id", suffixes = c(".row", ".col"))
   }
 
-  ##################################################
+  
   res <- res %>% .[, `:=`(row, -row)] %>% sf::st_as_sf(coords = c("col",
                                                                   "row"),
                                                        remove = FALSE)
@@ -191,9 +191,9 @@ calculate_x <- function(Z, Y, va, L) {
 #' @examples
 calculate_A <- function(Z, x) {
   # calculate A-matrix
-  x_hat <- diag(1/x)
-  x_hat[is.infinite(x_hat)] <- 0
-  A <- Z %*% x_hat
+  # A <- Z/x[col(Z)]
+  A <- eachrow(Z, x,'/')
+  A[is.na(A)] <- 0  
   return(A)
 }
 #' Title
@@ -206,8 +206,7 @@ calculate_A <- function(Z, x) {
 #' @examples
 calculate_L <- function(A) {
   # calculate Leontief inverse
-  I_mat <- diag(rep(1, nrow(A)))
-  L <- solve(I_mat - A)
+  L <- solve(diag(nrow(A)) - A)
   return(L)
 }
 #' Title
