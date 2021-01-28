@@ -4,7 +4,8 @@
 \alias{as.sparse.matrix}
 \title{Title}
 \usage{
-as.sparse.matrix(mat)
+as.sparse.matrix(mat, rownames = NULL, colnames = NULL,
+  suffices = c(".row", ".col"))
 }
 \arguments{
 \item{mat}{}

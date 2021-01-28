@@ -66,7 +66,26 @@ coef_var <- function(x) {
 }
 
 
+#' Title
+#' from:   https://rdrr.io/github/hadley/bigvis/man/weighted.var.html
+#' @param x 
+#' @param w 
+#' @param na.rm 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
+weighted.var <- function (x, w = NULL, na.rm = FALSE){
+  # from:   https://rdrr.io/github/hadley/bigvis/man/weighted.var.html
+  if (na.rm) {
+    na <- is.na(x) | is.na(w)
+    x <- x[!na]
+    w <- w[!na]
+  }
+  sum(w * (x - weighted.mean(x, w))^2)/(sum(w) - 1)
+}
 
 #' Title
 #'
@@ -157,7 +176,7 @@ renormalize <- function(x) {
 transform <- function(x, fun, fun_inverse,
                       scale = FALSE, normalize = FALSE, eps = 0.001, ...) {
   
-
+  
   if (!missing(fun)) {
     if (is.character(fun) && fun == "logap") {
       a <- max(0,-min(x, na.rm = TRUE) + eps, na.rm = TRUE)
@@ -369,3 +388,69 @@ substr_right <- function(x, n){
   nch <- nchar(x)
   substr(x, nch-n+1, nch)
 }
+
+
+#' Title
+#'
+#' @param restart 
+#' @param gc 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+clean_session <- function(detach_packages = TRUE, 
+                          restart = FALSE, gc = TRUE) {
+  clean_workspace(gc = gc)
+  message('✓ Workspace cleaned ')
+  if (isTRUE(detach_packages)) {
+    detach_packages()
+    message('✓ Packages detached ')  
+  }
+  if (isTRUE(restart)) {
+    restartR()
+    message('✓ R session restarted')
+    }
+}
+
+#' Title
+#'
+#' @param gc 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+clean_workspace <- function() {
+  rm(list = ls(all = TRUE, envir = globalenv()),
+     envir = globalenv())
+  if (isTRUE(gc)) gc()
+}
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+detach_packages <- function() {
+  pkgs <- names(sessionInfo()$otherPkgs)
+  if (!is.null(pkgs)) {
+    invisible(lapply(paste0('package:', pkgs), 
+                     detach, character.only=TRUE, unload=TRUE))
+  }
+  return(NULL)
+} 
+
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+restartR <- function() {
+  .rs.restartR()
+}
+

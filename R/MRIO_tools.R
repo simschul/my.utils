@@ -41,23 +41,23 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
   # Adding adidtional attributes (optional)
   if (is.null(attributes)) {
     attributes <- list("row" = data.table(rownames = rownames(mat)), 
-                                                "col" = data.table(colnames = colnames(mat)))
+                       "col" = data.table(colnames = colnames(mat)))
   } 
   if (!(exists("row", attributes) & exists("col", attributes))) {
     warning("attributes needs to have both arguments col and row!")
   } else if (nrow(attributes$row) == nrow(mat) & 
              nrow(attributes$col) == ncol(mat)) {
-      # either: attributes are given, or matrix has both row- and colnames
-      attributes <- lapply(attributes, function(x) {
-        x[,"id" := 1:.N]
-      })
-      res <- merge(res, attributes$row,
-                   by.x = "row", by.y = "id",
-                   suffixes = c(".row",".col")) %>%
-        merge(., attributes$col, by.x = "col",
-              by.y = "id", suffixes = c(".row", ".col"))
+    # either: attributes are given, or matrix has both row- and colnames
+    attributes <- lapply(attributes, function(x) {
+      x[,"id" := 1:.N]
+    })
+    res <- merge(res, attributes$row,
+                 by.x = "row", by.y = "id",
+                 suffixes = c(".row",".col")) %>%
+      merge(., attributes$col, by.x = "col",
+            by.y = "id", suffixes = c(".row", ".col"))
   }
-
+  
   
   res <- res %>% .[, `:=`(row, -row)] %>% sf::st_as_sf(coords = c("col",
                                                                   "row"),
@@ -85,19 +85,49 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
 #' @export
 #'
 #' @examples
-as.sparse.matrix <- function(mat) {
+as.sparse.matrix <- function(mat, rownames = NULL, colnames = NULL, 
+                             suffices = c('.row', '.col')) {
+  
   mat <- data.table::as.data.table(mat)
-  colnames(mat) <- paste0(1:ncol(mat))
-  #cat(is.data.table(mat))
-  mat <- mat[, "row" := 1:.N]
-  # mat <- cbind(mat, row = 1:nrow(mat))
-  mat <- data.table::melt(mat, id.vars = "row", na.rm = TRUE,
-                          variable.name = "col") %>%
-    .[, col := as.integer(col)] %>%
-    .[]
-  return(mat)
+  
+  if (!(is.null(rownames) | is.null(colnames))) {
+    # check for duplicates
+    dup_rows <- colnames(rownames) %in% colnames(colnames)
+    dup_cols <- colnames(colnames) %in% colnames(rownames)
+    colnames(rownames)[dup_rows] <- paste0(colnames(rownames)[dup_rows], suffices[1])
+    colnames(colnames)[dup_cols] <- paste0(colnames(colnames)[dup_cols], suffices[2])
+  }
+  
+  if (is.null(rownames)) {
+    rownames <- data.table(row = 1:nrow(mat))
+  }
+  mat <- cbind(rownames, mat)
+  mat <- data.table::melt(mat, id.vars = colnames(rownames), 
+                          na.rm = TRUE,
+                          variable.name = 'col')
+  mat[, col := as.integer(substring(col, 2))]
+  if (is.null(colnames)) {
+  } else {
+    mat <- merge(mat, cbind(colnames, col = (1:ncol(mat))), 
+          by = 'col')
+    mat[, col := NULL]
+  }
+  
+  
+  setcolorder(mat, c(colnames(rownames), colnames(colnames)))
+  return(mat[])
 }
 
+
+# mat <- Z
+# colnames <- data.table(country = c(LETTERS[1:ncol(mat)]), 
+#                        industry = letters[1:ncol(mat)])
+# rownames <- data.table(country = c(LETTERS[4 + (1:ncol(mat))]), 
+#                        industry = letters[4 + (1:ncol(mat))])
+# 
+# 
+# as.sparse.matrix(Z, colnames = colnames, rownames = rownames, suffices = c('x', 'y'))
+# as.sparse.matrix(Z, colnames = colnames[,1], rownames = rownames)
 
 #' Title
 #'
@@ -209,6 +239,34 @@ calculate_L <- function(A) {
   L <- solve(diag(nrow(A)) - A)
   return(L)
 }
+
+
+#' Title
+#' #todo> check
+#' @param Z 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_B <- function(Z, x) {
+  B <- Z / x
+  B[is.na(B)] <- 0  
+  return(B)
+}
+
+#' Title
+#' #TODO: check
+#' @param Z 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+calculate_G <- function(B) {
+  return(solve(diag(nrow(B)) -(B)))
+}
+
 #' Title
 #'
 #' @param E 
@@ -302,6 +360,29 @@ leontief_series_expansion <- function(A_mat, n) {
     list[[i]] <- list[[i-1]] %*% A_mat
   }
   return(list)
+}
+
+
+#' Aggregates the Y matrix for specfic columns. 
+#' e.g. by country, final demand category
+#'
+#' @param Y the final demand matrix
+#' @param groupings a vector with the groupings, same length as ncol(Y)
+#'
+#' @return
+#' @export
+#'
+#' @examples
+aggregate_Y <- function(Y, groupings) {
+  if (length(groupings) != ncol(Y)) stop('groupings need to have the same length as nrow(Y)')
+  grouping_levels <- unique(groupings)
+  n_groups <- length(grouping_levels)
+  Ynew <- matrix(0, nrow = nrow(Y), ncol = n_groups)
+  colnames(Ynew) <- grouping_levels
+  for (i in 1:n_groups) {
+    Ynew[,i] <- rowsums(Y[, groupings == grouping_levels[i]])
+  }
+  return(Ynew)
 }
 
 
