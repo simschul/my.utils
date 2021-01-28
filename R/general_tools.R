@@ -422,7 +422,7 @@ clean_session <- function(detach_packages = TRUE,
 #' @export
 #'
 #' @examples
-clean_workspace <- function() {
+clean_workspace <- function(gc = TRUE) {
   rm(list = ls(all = TRUE, envir = globalenv()),
      envir = globalenv())
   if (isTRUE(gc)) gc()

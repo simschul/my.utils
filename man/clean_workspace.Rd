@@ -4,7 +4,7 @@
 \alias{clean_workspace}
 \title{Title}
 \usage{
-clean_workspace()
+clean_workspace(gc = TRUE)
 }
 \arguments{
 \item{gc}{}
