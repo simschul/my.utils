@@ -14,6 +14,9 @@ weighted.var(x, w = NULL, na.rm = FALSE)
 
 \item{na.rm}{}
 }
+\value{
+
+}
 \description{
 Title
 from:   https://rdrr.io/github/hadley/bigvis/man/weighted.var.html

@@ -17,6 +17,9 @@ calc_footprint_sector(L_mat, S_mat, y_vec, index, detailed = FALSE)
 
 \item{detailed}{shall footprints be returned split up by direct + indirect emissions?}
 }
+\value{
+
+}
 \description{
 Title
 }

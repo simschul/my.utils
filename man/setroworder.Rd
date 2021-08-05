@@ -12,6 +12,9 @@ setroworder(x, neworder)
 
 \item{neworder}{}
 }
+\value{
+
+}
 \description{
 Set the row order to a specific given new order
 copied from: https://stackoverflow.com/questions/37878620/reorder-rows-in-data-table-in-a-specific-order

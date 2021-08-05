@@ -4,8 +4,12 @@
 \alias{start_R_script}
 \title{Title}
 \usage{
-start_R_script(filename = "Untitled.R", dir = ".",
-  author = "Simon Schulte", packages = TRUE)
+start_R_script(
+  filename = "Untitled.R",
+  dir = ".",
+  author = "Simon Schulte",
+  packages = TRUE
+)
 }
 \arguments{
 \item{filename}{}
@@ -15,6 +19,9 @@ start_R_script(filename = "Untitled.R", dir = ".",
 \item{author}{}
 
 \item{packages}{}
+}
+\value{
+
 }
 \description{
 Title

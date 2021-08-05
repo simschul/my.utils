@@ -10,6 +10,9 @@ create_concordance_matrix(x)
 \arguments{
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Just adds rownames and column names to any matrix. 
 rownames with leading i, colnames with leading j

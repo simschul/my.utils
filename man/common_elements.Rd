@@ -13,6 +13,9 @@ common_elements(x, y, mode = 1, ignore.case = FALSE)
 
 \item{mode}{either 1: looking for common elements (default), or -1: looking for non-common elements}
 }
+\value{
+
+}
 \description{
 Title
 }

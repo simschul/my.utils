@@ -8,8 +8,15 @@ This function can be used to
 (ii) scale `x` using R's `scale` function (=standardization)
 (iii) normalize `x` so that its values have a range from 0 to 1}
 \usage{
-transform(x, fun, fun_inverse, scale = FALSE, normalize = FALSE,
-  eps = 0.001, ...)
+transform(
+  x,
+  fun,
+  fun_inverse,
+  scale = FALSE,
+  normalize = FALSE,
+  eps = 0.001,
+  ...
+)
 }
 \arguments{
 \item{x}{a numeric vector}
@@ -23,6 +30,9 @@ transform(x, fun, fun_inverse, scale = FALSE, normalize = FALSE,
 \item{normalize}{boolean. shall x also be normalized? default = FALSE}
 
 \item{...}{other parameters passed `scale` (at the moment only support `center`)}
+}
+\value{
+
 }
 \description{
 When combining (i) and (ii) or (i) and (iii) the data is first transformed then scaled/normalized

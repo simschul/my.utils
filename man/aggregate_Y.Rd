@@ -12,6 +12,9 @@ aggregate_Y(Y, groupings)
 
 \item{groupings}{a vector with the groupings, same length as ncol(Y)}
 }
+\value{
+
+}
 \description{
 Aggregates the Y matrix for specfic columns. 
 e.g. by country, final demand category

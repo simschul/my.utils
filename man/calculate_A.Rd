@@ -11,6 +11,9 @@ calculate_A(Z, x)
 
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Title
 }

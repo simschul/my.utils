@@ -4,10 +4,13 @@
 \alias{coef_var}
 \title{Calculates the coefficient of variance}
 \usage{
-coef_var(x)
+coef_var(x, na.rm = FALSE)
 }
 \arguments{
 \item{x}{}
+}
+\value{
+
 }
 \description{
 Calculates the coefficient of variance

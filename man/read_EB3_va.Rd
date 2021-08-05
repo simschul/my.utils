@@ -9,6 +9,9 @@ read_EB3_va(path)
 \arguments{
 \item{path}{}
 }
+\value{
+
+}
 \description{
 Title
 }

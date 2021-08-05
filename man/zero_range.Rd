@@ -2,7 +2,8 @@
 % Please edit documentation in R/general_tools.R
 \name{zero_range}
 \alias{zero_range}
-\title{Title
+\title{The machine epsilon is the difference between 1.0 and the next number that can be represented by the machine. By default, this function uses epsilon * 1000 as the tolerance. First it scales the values so that they have a mean of 1, and then it checks if the difference between them is larger than the tolerance. 
+Just added na.rm argument to allow for NA in x.
 see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range}
 \usage{
 zero_range(x, tol = .Machine$double.eps^0.5, na.rm = TRUE)
@@ -12,7 +13,11 @@ zero_range(x, tol = .Machine$double.eps^0.5, na.rm = TRUE)
 
 \item{tol}{}
 }
+\value{
+
+}
 \description{
-Title
+The machine epsilon is the difference between 1.0 and the next number that can be represented by the machine. By default, this function uses epsilon * 1000 as the tolerance. First it scales the values so that they have a mean of 1, and then it checks if the difference between them is larger than the tolerance. 
+Just added na.rm argument to allow for NA in x.
 see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
 }

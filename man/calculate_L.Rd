@@ -9,6 +9,9 @@ calculate_L(A)
 \arguments{
 \item{A}{}
 }
+\value{
+
+}
 \description{
 Title
 }

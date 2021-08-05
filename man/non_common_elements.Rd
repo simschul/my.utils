@@ -13,6 +13,9 @@ non_common_elements(x, y, mode = 1, ignore.case = FALSE)
 
 \item{mode}{}
 }
+\value{
+
+}
 \description{
 Title
 }

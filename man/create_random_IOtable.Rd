@@ -15,6 +15,9 @@ create_random_IOtable(n.industries, n.emissions, n.fdcats, A = FALSE)
 
 \item{A}{}
 }
+\value{
+
+}
 \description{
 Title
 }

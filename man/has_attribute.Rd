@@ -11,6 +11,9 @@ has_attribute(x, attribute)
 
 \item{attribute}{}
 }
+\value{
+
+}
 \description{
 Title
 }

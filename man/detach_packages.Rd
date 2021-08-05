@@ -6,6 +6,9 @@
 \usage{
 detach_packages()
 }
+\value{
+
+}
 \description{
 Title
 }

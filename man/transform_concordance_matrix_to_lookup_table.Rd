@@ -10,6 +10,9 @@ transform_concordance_matrix_to_lookup_table(concordance_matrix)
 \arguments{
 \item{concordance_matrix}{}
 }
+\value{
+
+}
 \description{
 Concordance matrix = matrix which has unique row- and colnames
 Lookup table = 2-column data.frame/table with row-wise unique concordances

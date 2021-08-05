@@ -2,15 +2,18 @@
 % Please edit documentation in R/general_tools.R
 \name{substr_right}
 \alias{substr_right}
-\title{Title}
+\title{Extracts the last n characters of a character string x}
 \usage{
 substr_right(x, n)
 }
 \arguments{
-\item{x}{}
+\item{x}{a character string}
 
-\item{n}{}
+\item{n}{the last n elements to extract}
+}
+\value{
+a character string of length n
 }
 \description{
-Title
+Extracts the last n characters of a character string x
 }

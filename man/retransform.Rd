@@ -11,6 +11,9 @@ retransform(x, inverse_fun)
 
 \item{inverse_fun}{}
 }
+\value{
+
+}
 \description{
 Title
 }

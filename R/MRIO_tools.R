@@ -108,11 +108,10 @@ as.sparse.matrix <- function(mat, rownames = NULL, colnames = NULL,
   mat[, col := as.integer(substring(col, 2))]
   if (is.null(colnames)) {
   } else {
-    mat <- merge(mat, cbind(colnames, col = (1:ncol(mat))), 
+    mat <- merge(mat, cbind(colnames, col = (1:nrow(colnames))), 
           by = 'col')
     mat[, col := NULL]
   }
-  
   
   setcolorder(mat, c(colnames(rownames), colnames(colnames)))
   return(mat[])

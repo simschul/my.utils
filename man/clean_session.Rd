@@ -11,6 +11,9 @@ clean_session(detach_packages = TRUE, restart = FALSE, gc = TRUE)
 
 \item{gc}{}
 }
+\value{
+
+}
 \description{
 Title
 }

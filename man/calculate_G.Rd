@@ -10,6 +10,9 @@ calculate_G(B)
 \arguments{
 \item{Z}{}
 }
+\value{
+
+}
 \description{
 Title
 #TODO: check

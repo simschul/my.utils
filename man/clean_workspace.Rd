@@ -9,6 +9,9 @@ clean_workspace(gc = TRUE)
 \arguments{
 \item{gc}{}
 }
+\value{
+
+}
 \description{
 Title
 }

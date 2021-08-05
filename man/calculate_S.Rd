@@ -11,6 +11,9 @@ calculate_S(E, x)
 
 \item{x}{}
 }
+\value{
+
+}
 \description{
 Title
 }

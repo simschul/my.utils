@@ -9,6 +9,9 @@ point2polygon(xy)
 \arguments{
 \item{xy}{}
 }
+\value{
+
+}
 \description{
 Title
 }

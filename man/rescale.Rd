@@ -7,7 +7,12 @@
 rescale(x, scaling_attributes)
 }
 \arguments{
-\item{x}{}
+\item{x}{a numeric vector or one-column matrix. Optionally: with attributes "scaled:center" and "scaled:scale" (as returned by the base function scale)}
+
+\item{scaling_attributes}{optional.}
+}
+\value{
+a numeric vector. (also in case x is given as a 1-col matrix)
 }
 \description{
 Title

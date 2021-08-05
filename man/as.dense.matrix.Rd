@@ -17,6 +17,9 @@ as.dense.matrix(x, row = 1, col = 2, value = 3, keep.names = TRUE)
 
 \item{keep.names}{only considered if the `row` and `col` columns of `x` are of type character.}
 }
+\value{
+
+}
 \description{
 Title
 }

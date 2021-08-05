@@ -12,6 +12,9 @@ find_a(x, eps = 0.001)
 
 \item{eps}{}
 }
+\value{
+
+}
 \description{
 Find the "best" a for a log(x+a) transformation when x contains values <= 0
 From bestNormalize::log_x

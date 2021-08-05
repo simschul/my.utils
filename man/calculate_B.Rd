@@ -10,6 +10,9 @@ calculate_B(Z, x)
 \arguments{
 \item{Z}{}
 }
+\value{
+
+}
 \description{
 Title
 #todo> check

@@ -36,7 +36,8 @@ combine_words_regexp <- function(words) {
 
 
 
-#' Title
+#' The machine epsilon is the difference between 1.0 and the next number that can be represented by the machine. By default, this function uses epsilon * 1000 as the tolerance. First it scales the values so that they have a mean of 1, and then it checks if the difference between them is larger than the tolerance. 
+#' Just added na.rm argument to allow for NA in x.
 #' see https://www.rdocumentation.org/packages/scales/versions/0.4.1/topics/zero_range
 #' @param x 
 #' @param tol 
@@ -61,8 +62,9 @@ zero_range <- function(x, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE) {
 #' @export
 #'
 #' @examples
-coef_var <- function(x) {
-  sqrt(var(x)) / mean(x)
+
+coef_var <- function(x, na.rm = FALSE) {
+  sqrt(var(x, na.rm = na.rm)) / mean(x, na.rm = na.rm)
 }
 
 
@@ -89,9 +91,10 @@ weighted.var <- function (x, w = NULL, na.rm = FALSE){
 
 #' Title
 #'
-#' @param x 
+#' @param x a numeric vector or one-column matrix. Optionally: with attributes "scaled:center" and "scaled:scale" (as returned by the base function scale)
+#' @param scaling_attributes optional. 
 #'
-#' @return
+#' @return a numeric vector. (also in case x is given as a 1-col matrix)
 #' @export
 #'
 #' @examples
@@ -116,9 +119,6 @@ rescale <- function(x, scaling_attributes) {
   attr(x_unscaled, "dim") <- NULL
   return(x_unscaled)
 }
-
-
-
 
 
 
@@ -375,16 +375,19 @@ non_common_elements <- function(x, y, mode = 1, ignore.case = FALSE) {
 }
 
 
-#' Title
+#' Extracts the last n characters of a character string x
 #'
-#' @param x 
-#' @param n 
+#' @param x a character string
+#' @param n the last n elements to extract
 #'
-#' @return
+#' @return a character string of length n
 #' @export
 #'
 #' @examples
 substr_right <- function(x, n){
+  if (length(x) > n) warning(paste0('You want to extract the last ', n, 
+                                    ' characters of a string of length ', nchar(x), 
+                                    '. All characters of x a returned.'))
   nch <- nchar(x)
   substr(x, nch-n+1, nch)
 }
@@ -453,4 +456,54 @@ detach_packages <- function() {
 restartR <- function() {
   .rs.restartR()
 }
+
+
+#' Returns the upper left corner of a large matrix. Extends the utils::head.matrix 
+#' function by not only return the first n rows but also the first m cols. 
+#'
+#' @param x a matrix or data.frame
+#' @param n number of rows to return
+#' @param m number of cols to return
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+big_head <- function (x, n = 6L, m = 10L, ...) {
+  stopifnot(length(n) == 1L)
+  n <- if (n < 0L) 
+    max(nrow(x) + n, 0L)
+  else min(n, nrow(x))
+  m <- min(m, ncol(x))
+  x[seq_len(n), seq_len(m) , drop = FALSE]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

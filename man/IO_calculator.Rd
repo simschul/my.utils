@@ -21,6 +21,9 @@ IO_calculator(S, L, Y, B, d, f, detailed = TRUE)
 
 \item{detailed}{}
 }
+\value{
+
+}
 \description{
 Title
 }

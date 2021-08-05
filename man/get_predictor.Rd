@@ -9,6 +9,9 @@ get_predictor(model)
 \arguments{
 \item{model}{}
 }
+\value{
+
+}
 \description{
 Title
 }

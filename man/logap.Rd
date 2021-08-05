@@ -4,8 +4,7 @@
 \alias{logap}
 \title{see ?bestNormalize::log_x()}
 \usage{
-logap(x, a = max(0, -min(x, na.rm = TRUE) + eps, na.rm = TRUE),
-  eps = 0.001)
+logap(x, a = max(0, -min(x, na.rm = TRUE) + eps, na.rm = TRUE), eps = 0.001)
 }
 \arguments{
 \item{x}{}
@@ -13,6 +12,9 @@ logap(x, a = max(0, -min(x, na.rm = TRUE) + eps, na.rm = TRUE),
 \item{a}{}
 
 \item{eps}{}
+}
+\value{
+
 }
 \description{
 see ?bestNormalize::log_x()

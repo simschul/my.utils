@@ -4,8 +4,14 @@
 \alias{IOvisualize}
 \title{Title}
 \usage{
-IOvisualize(mat, threshold, maxpoints = 10000, cex = "absolut",
-  attributes = NULL, ...)
+IOvisualize(
+  mat,
+  threshold,
+  maxpoints = 10000,
+  cex = "absolut",
+  attributes = NULL,
+  ...
+)
 }
 \arguments{
 \item{mat}{a numeric matrix}
@@ -15,6 +21,9 @@ IOvisualize(mat, threshold, maxpoints = 10000, cex = "absolut",
 \item{attributes}{a list with two elements "row" and "col". Each element should be a data.frame with the same number of rows as ncol(mat) or nrow(mat), respectively. If not given and the matrix has colnames and rownames these are taken.}
 
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Title

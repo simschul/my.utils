@@ -19,6 +19,9 @@ SPA_footprint_sector(n = 8, L_mat, A_mat, y_vec, S_mat, index)
 
 \item{index}{see ?calc_footprint_sector}
 }
+\value{
+
+}
 \description{
 Title
 }

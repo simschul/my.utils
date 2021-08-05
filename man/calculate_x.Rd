@@ -15,6 +15,9 @@ calculate_x(Z, Y, va, L)
 
 \item{L}{}
 }
+\value{
+
+}
 \description{
 Title
 }

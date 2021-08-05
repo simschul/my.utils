@@ -11,6 +11,9 @@ leontief_series_expansion(A_mat, n)
 
 \item{n}{}
 }
+\value{
+
+}
 \description{
 Title
 }
