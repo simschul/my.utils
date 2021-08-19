@@ -56,6 +56,11 @@ start_new_project <- function(name,
                               github = TRUE
 ) {
   project_dir <- file.path(root_dir, name)
+  
+  if (dir.exists(project_dir)) {
+    stop('Project directory already exists.')
+  }
+  
   code_dir <- file.path(project_dir, 'code')
   dir.create(code_dir, recursive = TRUE)
   dir.create(file.path(project_dir, 'tex'))
@@ -64,8 +69,9 @@ start_new_project <- function(name,
   dir.create(file.path(project_dir, 'documentation'))
   dir.create(file.path(project_dir, 'misc'))
   dir.create(file.path(project_dir, 'tmp'))
+  dir.create(file.path(project_dir, 'spreadsheets'))
   
-  if (!is.null(rproject)) {
+  if (!is.null(rproject) & isFALSE(rproject)) {
     create_project(file.path(code_dir, rproject), open = FALSE)
     if (git) {
       proj_set(file.path(code_dir, rproject))
