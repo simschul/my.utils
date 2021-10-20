@@ -12,6 +12,7 @@
 #'
 #' @examples
 #'
+
 IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
                          attributes = NULL 
                          , ...)  {
@@ -36,6 +37,7 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
     threshold <- min_threshold
   }
   mat[mat < threshold & mat > -threshold] <- NA
+  mat[mat == 0] <- NA
   res <- mat %>% as.sparse.matrix
   
   # Adding adidtional attributes (optional)
@@ -74,7 +76,7 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
   }
   mapview::mapview(res, alpha = 0.3, lwd = 0, cex = cex,
                    color = viridis::viridis,
-                   zcol = "value", layer.name = "value" ,...)
+                   zcol = "value", layer.name = "value")
 }
 
 #' Title
