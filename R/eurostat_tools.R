@@ -116,3 +116,50 @@ is_NACErev2_code <- function(y) {
   # currentyl only until level 2
   is_NACE_level1(y) | is_NACE_level2(y) | is_combination(y)
 }
+
+
+
+#' Converts a data.frame with NACE rev2 classification to a hierarchical data.tree. 
+#' Currently only supports until 2nd level (e.g. A03, C11, ...)
+#'
+#' @param x a data.frame
+#' @param code character: column name with NACE rev2 codes (need to be in the form A, B, ..., A01, C13, C10-12, C10_C11, ...)
+#'
+#' @return a data.tree object with all columns of x as attributes
+#' @export
+#'
+#' @examples
+convert_NACErev2_to_tree <- function(x, code) {
+  # currently only works until 2nd level (eg. A03, C11, ...)
+  level1_vec <- x[get(code) %in% LETTERS][[code]]
+  for (i in level1_vec) {
+    x[grepl(i, x[[code]]), code_tree := i]
+  }
+  x[nchar(get(code)) > 1, code_tree := paste0(code_tree, '.', get(code))]
+  x[, code_tree := paste0('TOTAL.', code_tree)]
+  tree <- as.Node(x, pathName = 'code_tree', pathDelimiter = '.')
+  return(tree)
+}
+
+
+
+#' Title
+#'
+#' @param x 
+#' @param code_name 
+#' @param attribute 
+#' @param tol 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+is_coherent_NACErev2 <- function(x, 
+                                 code_name = 'code', 
+                                 attribute = 'value', 
+                                 tol = 1E-3) {
+  tree <- convert_NACErev2_to_tree(x, code = code_name)
+  return(is_coherent_tree(tree, attribute = attribute, tol = tol))
+}
+
+
