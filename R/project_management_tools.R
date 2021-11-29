@@ -71,7 +71,7 @@ start_new_project <- function(name,
   dir.create(file.path(project_dir, 'tmp'))
   dir.create(file.path(project_dir, 'spreadsheets'))
   
-  if (!is.null(rproject) & isFALSE(rproject)) {
+  if (!is.null(rproject) & !isFALSE(rproject)) {
     create_project(file.path(code_dir, rproject), open = FALSE)
     if (git) {
       proj_set(file.path(code_dir, rproject))
