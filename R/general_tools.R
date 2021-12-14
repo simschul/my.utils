@@ -408,7 +408,7 @@ clean_session <- function(detach_packages = TRUE,
   clean_workspace(gc = gc)
   message('✓ Workspace cleaned ')
   if (isTRUE(detach_packages)) {
-    detach_packages()
+    suppressMessages(detach_packages())
     message('✓ Packages detached ')  
   }
   if (isTRUE(restart)) {
@@ -482,11 +482,20 @@ big_head <- function (x, n = 6L, m = 10L, ...) {
 
 
 
-
-
-
-
-
+#' Install R packages as RStudio Job
+#'
+#' @param pkgs Package(s) to install
+#' @param ... other arguments passed to pak::pkg_install
+#'
+#' @return
+#' @export
+#'
+#' @examples
+install_packages <- function(pkgs) {
+  job::job({
+    pak::pkg_install(pkg = pkgs)
+  })
+}
 
 
 
