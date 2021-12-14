@@ -84,19 +84,41 @@ is_NACE_level2 <- function(y) {
 #'
 #' @examples
 is_combination <- function(y) {
-  type_underscore <- str_split(y, '_') %>% 
-    lapply(function(x) {
-      is_NACE_level2(x) %>% 
-        sum == 2
-    }) %>% unlist  
+  return(is_combination_underscore(y) | is_combination_bar(y))
+}
+
+
+#' Title
+#'
+#' @param y 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+is_combination_underscore <- function(y) {
+  z <- stringr::str_split(y, '_') 
+  z <- lapply(z, function(x) {
+    is_nace <- is_NACE_level2(x)
+    sum(is_nace) == 2 | (isTRUE(is_nace[1]) & !is.nan(is.numeric(x[2])))
+    }) 
+  return(unlist(z) & grepl('_', y))
+}
+
+#' Title
+#'
+#' @param y 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+is_combination_bar <- function(y) {
   # 1. first 3 characters are nace rev 2 code
   # 2. contains "-"
   # 3. 5th and 6th characters are numbers
-  type_bar <- is_NACE_level2(substr(y, 1,3)) & substr(y, 4,4) == '-'& ends_with_2_numbers(y)
-  
-  return(type_underscore | type_bar)
+  is_NACE_level2(substr(y, 1,3)) & substr(y, 4,4) == '-'& ends_with_2_numbers(y)
 }
-
 
 #' Checks which elements of a character vector are valid NACE rev2 codes. 
 #' Currently includes: 
