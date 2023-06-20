@@ -16,7 +16,8 @@ Imports:
     sf, 
     mapview, 
     Rfast, 
-    ggplot2
+    ggplot2, 
+    job
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

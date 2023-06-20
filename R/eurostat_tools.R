@@ -185,3 +185,113 @@ is_coherent_NACErev2 <- function(x,
 }
 
 
+
+#' Disaggregate Correspondence table with combined NACErev2 sectors 
+#' 
+#' 
+#' 
+#' Combinations of sectors can either have the form C10_C11 (type underscore)
+#' or C10-C13 (type bar). 
+#' 
+#' _ implies 'and' (C10_C11 = C10 and C11)
+#' - implies 'from to' (C10-C13 = C10, C11, C12, C13)
+#'
+#' @param x a correspondence table (data.table in long format, 2 columns only) where either the source or the target classification include NACErev2 codes that are a combination of several categories. 
+#' @param col numeric: where to find the column with NACErev2 combinations
+#'
+#' @return
+#' @import data.table
+#' @export
+#'
+#' @examples
+#' 
+
+# x <- data.table(source = c('C11_13'), 
+#            target = c('a'))
+# col = 1
+# rm(x)
+# rm(col)
+
+
+split_NACE_combinations <- function(x, col) {
+  colnames_original <- colnames(x)
+  x <- copy(x)
+  if (col == 1) setcolorder(x, c(2,1))
+  setnames(x, c('V1', 'V2'))
+  
+  #if (is.numeric(col)) col <- colnames(x)[col]
+  
+  x_new <- x[!is_combination(V2)]
+  x_under <- x[is_combination_underscore(V2)]
+  x_bar <- x[is_combination_bar(V2)]
+  
+  # Type underscore (C10_C11) =========
+  if (nrow(x_under) > 0) {
+    for (i in seq_along(nrow(x_under))) {
+      col_splitted <- strsplit(x_under[i,][['V2']], '_')
+      col_splitted <- unlist(col_splitted)
+      
+      if (!is.na(as.numeric(col_splitted[2]))) {
+        # second part of combination is only number without leading letter (e.g. C10_11)
+        col_splitted[2] <- paste0(substr(col_splitted[1], 1, 1), col_splitted[2]) 
+      }
+          
+          
+      x_new <- rbindlist(
+        list(
+          x_new, 
+          data.table(
+            V1 = rep(x_under[i,]$V1, 2),
+            V2 = col_splitted
+          )
+        ), 
+        use.names = FALSE
+      )
+    }  
+  }
+  
+  # Type bar (C10-C13) ==============
+  if (nrow(x_bar) > 0) {
+    # extract digits from .... to ....
+    from_to <- stringr::str_extract_all(x_bar$V2, '(\\d+)') %>% 
+      lapply(as.numeric)
+    
+    # extract Letters
+    let <-  stringr::str_extract_all(x_bar$V2, '([A-Z]+)')
+    
+    # are all letters the same?
+    problem <- sapply(let, function(x) length(unique(x)) != 1)
+    if (sum(problem) > 0) {
+      stop(x_bar[problem], ' is invalid NACE code combination')
+    }
+    
+
+    # paste letter and number together
+    for (i in 1:length(from_to)) {
+      col_splitted <- paste0(let[[i]], from_to[[i]][1]:from_to[[i]][2])
+      
+      x_new <- rbindlist(
+        list(
+          x_new, 
+          data.table(
+            V1 = rep(x_bar[i,]$V1, length(col_splitted)),
+            V2 = col_splitted
+          )
+        )
+      ) 
+    }
+    
+  }
+  
+  if (col == 1) setcolorder(x_new, c(2,1))
+  #setroworder(x_new, neworder = x[[col]])
+  setnames(x_new, colnames_original)
+  
+  return(x_new)
+}
+
+
+
+
+
+

@@ -8,6 +8,7 @@ as.sparse.matrix(
   mat,
   rownames = NULL,
   colnames = NULL,
+  na.rm = FALSE,
   suffices = c(".row", ".col")
 )
 }
@@ -19,4 +20,9 @@ as.sparse.matrix(
 }
 \description{
 Title
+}
+\examples{
+
+
+
 }

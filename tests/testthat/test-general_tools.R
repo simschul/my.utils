@@ -1,7 +1,7 @@
 test_that("zero_range works", {
   expect_equal(
-    zero_range(c(1,1 + 1E-12)), 
-    scales::zero_range(c(1,1 + 1E-12))
+    zero_range(c(1,1 + 1E-16)), 
+    scales::zero_range(c(1,1 + 1E-16))
   )
 })
 

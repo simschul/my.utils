@@ -4,7 +4,7 @@
 \alias{read_EB3_va}
 \title{Title}
 \usage{
-read_EB3_va(path)
+read_EB3_va(path, metadata = FALSE)
 }
 \arguments{
 \item{path}{}

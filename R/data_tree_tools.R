@@ -9,7 +9,7 @@
 #'
 #' @examples
 is_coherent_tree <- function(tree, attribute, tol = 1E-3) {
-  if (!is.numeric(tree$Get('values'))) {
+  if (!is.numeric(tree$Get(attribute))) {
     stop('The attribute must be of type numeric. ')
   } 
   

@@ -4,7 +4,7 @@
 \alias{read_EB3_Y}
 \title{Title}
 \usage{
-read_EB3_Y(path)
+read_EB3_Y(path, metadata = FALSE)
 }
 \arguments{
 \item{path}{}

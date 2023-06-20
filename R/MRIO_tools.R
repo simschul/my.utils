@@ -18,6 +18,11 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
                          , ...)  {
   # TODO: what to do when mat contains Inf-values? --> error atm: "Error in leaflet::colorNumeric(palette = palette, domain = domain, na.color = na.color,  : Wasn't able to determine range of domain "
   # maybe mat is a sparse matrix?
+  
+  
+  
+  
+  
   if (!is.matrix(mat)) mat <- as.dense.matrix(mat)
   # threshold argument not needed if matrix is (i) not big enough or (ii) does not have enough non-NA values
   if (maxpoints > (ncol(mat) * nrow(mat)) | length(mat[is.na(mat)]) < maxpoints) {
@@ -87,10 +92,20 @@ IOvisualize <- function (mat, threshold, maxpoints = 10000, cex = "absolut",
 #' @export
 #'
 #' @examples
-as.sparse.matrix <- function(mat, rownames = NULL, colnames = NULL, 
+#' 
+#' 
+#' 
+
+
+as.sparse.matrix <- function(mat, rownames = NULL, colnames = NULL,
+                             na.rm = FALSE,
                              suffices = c('.row', '.col')) {
   
-  mat <- data.table::as.data.table(mat)
+  mat <- reshape2::melt(mat, na.rm = na.rm)
+  mat <- as.data.table(mat)
+  setnames(mat, c('row', 'col', 'value'))
+  if (is.factor(mat$row)) mat$row <- as.character(mat$row)
+  if (is.factor(mat$col)) mat$col <- as.character(mat$col)
   
   if (!(is.null(rownames) | is.null(colnames))) {
     # check for duplicates
@@ -100,22 +115,20 @@ as.sparse.matrix <- function(mat, rownames = NULL, colnames = NULL,
     colnames(colnames)[dup_cols] <- paste0(colnames(colnames)[dup_cols], suffices[2])
   }
   
-  if (is.null(rownames)) {
-    rownames <- data.table(row = 1:nrow(mat))
-  }
-  mat <- cbind(rownames, mat)
-  mat <- data.table::melt(mat, id.vars = colnames(rownames), 
-                          na.rm = TRUE,
-                          variable.name = 'col')
-  mat[, col := as.integer(substring(col, 2))]
-  if (is.null(colnames)) {
-  } else {
+  if (!is.null(colnames)) {
     mat <- merge(mat, cbind(colnames, col = (1:nrow(colnames))), 
-          by = 'col')
-    mat[, col := NULL]
+                 by = 'col')
+    #mat[, col := NULL]
   }
   
-  setcolorder(mat, c(colnames(rownames), colnames(colnames)))
+  if (!is.null(rownames)) {
+    mat <- merge(mat, cbind(rownames, row = (1:nrow(rownames))), 
+                 by = 'row')
+    #mat[, row := NULL]
+  }
+  
+ 
+  setcolorder(mat, c('row', 'col', colnames(rownames), colnames(colnames)))
   return(mat[])
 }
 

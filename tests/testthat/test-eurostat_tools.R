@@ -1,3 +1,4 @@
+library(data.table)
 data <- c('C', 'C10', 'C11-13', 'C11-C13', 'C11_12', 'C11_C12', 'ABC12', 'ABC_12', 'C1_2')
 type <- c('level1', 'level2', 'combination_bar', 'combination_bar', 'combination_underscore','combination_underscore', 'none', 'none', 'none')
 
@@ -30,4 +31,51 @@ test_that('NACErev2 detection works', {
     data[type == 'level2']
   )
 })
+
+
+test_that('NACErev2 disaggregation works', {
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('C11_C12'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('C11', 'C12'), 
+               target = rep('a',2))
+  )
+  
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('C11_12'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('C11', 'C12'), 
+               target = rep('a',2))
+  )
+  
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('C11-C13'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('C11', 'C12', 'C13'), 
+               target = rep('a',3))
+  )
+  
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('C11-13'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('C11', 'C12', 'C13'), 
+               target = rep('a',3))
+  )
+  
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('C11'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('C11'), 
+               target = c('a'))
+  )
+  
+  expect_equal(
+    split_NACE_combinations(data.table(source = c('ABC_11'), 
+                                       target = c('a')), 1), 
+    data.table(source = c('ABC_11'), 
+               target = c('a'))
+  )
+  
+})
+
 
